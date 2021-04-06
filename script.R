@@ -1,8 +1,6 @@
 ###Data analysis for metanetwork in Dujiangyan,R2 according to reviewers' comments
 ###by Hai-Dong Li
 
-
-
 ##load packages and functions
 rm(list=ls()) # befor start remove everything include functions in R
 setwd("C:/Dataset/Metanetwork/Finnal") # set working directory
@@ -344,9 +342,6 @@ forceNetwork(Links = metanetwork_d3$links, Nodes = metanetwork_d3$nodes,
              NodeID = 'name', Group = 'group', opacity = 1, bounded = T)
 
 
-
-
-
 ##1.1 quantitative analysis
 myFunwithNull <- function(network,nulls,index){
     obs <- networklevel(network,index=index)
@@ -522,8 +517,6 @@ Sq(q_metanetwork)#3.848041
 Sq(q_metanetwork_drop_on) #3.1069
 Sq(q_metanetwork_drop_under) #3.937121
 Sq(q_metanetwork_drop_shared) #4.12475
-
-
 
 
 
@@ -2127,12 +2120,8 @@ plt.beta.plant.geo+Fig.B+plt.D
 ## 7. Multilayer network analysis
 ########################################
 ##########Multilayer network analysis
-
-
-
 # this script shows how to calculate the {z, c}-values of species observed 
 # interacting within a landscape (a set of habitats)
-
 
 # load functions, code from Hackett et al. 2019, pls cite this.
 source("Functions/sumbygroup.r")
@@ -2142,13 +2131,6 @@ source("Functions/feature_scaling.R")
 
 # load data
 # interaction list for the Dujiangyan
-
-df_network_two <- rbind(df_network2014,df_network2015)
-
-Dujiangyan_ListObs <- sumbygroup(df_network_two,measurevar = "Animal_Number",groupvars = c("Patch","TreeSpecies","AnimalSpecies"))
-
-write.csv(Dujiangyan_ListObs,"Dujiangyan_ListObs.csv",row.names = F)
-
 HH_ListObs <- read.csv("Dujiangyan_ListObs.csv", stringsAsFactors = FALSE)
 
 # normalise interaction frequencies
@@ -2156,15 +2138,12 @@ IntTypes <- unique(HH_ListObs$upper_guild)
 HH_ListObs$freq_norm <- 0
 for (it in IntTypes){
     freq_int <- HH_ListObs$freq[HH_ListObs$upper_guild == it]
-    HH_ListObs$freq_norm[HH_ListObs$upper_guild == it] <- round(feature_scaling(freq_int, min(HH_ListObs$freq), max(HH_ListObs$freq)), 3) # feature scaling, 3 digits for fractional part
-}
+    HH_ListObs$freq_norm[HH_ListObs$upper_guild == it] <- round(feature_scaling(freq_int, min(HH_ListObs$freq), max(HH_ListObs$freq)), 3) 
 
-# species list for the mosaic of habitats in Hengistbury Head
-# must be a data frame with at least one column with species names ('taxon'), it can be customised to your taste with more information
 HH_SpList <- data.frame(taxon = unique(sort(c(HH_ListObs$lower_taxon, HH_ListObs$upper_taxon))))
 
 # metaweb, all interaction types
-a_obs <- mw_adjacencies(HH_ListObs, HH_SpList, FALSE, FALSE, TRUE) # 3D-array, dim = {Sp+Sa, Sp+Sa, H}, Sp = No. plant species, Sa = No. insect species, H = No. habitats
+a_obs <- mw_adjacencies(HH_ListObs, HH_SpList, FALSE, FALSE, TRUE) # 3D-array
 aw_obs <- mw_adjacencies(HH_ListObs, HH_SpList, TRUE, FALSE, TRUE) # weighted
 
 # Among-habitat connectivity
